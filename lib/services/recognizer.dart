@@ -1,8 +1,11 @@
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/services.dart';
 import '../utils/constants.dart';
+import 'package:flutter_tflite/flutter_tflite.dart';
+
+//import  'package:tflite/tflite.dart';
 
 final _canvasCullRect = Rect.fromPoints(
   const Offset(0, 0),
@@ -17,8 +20,7 @@ final _whitePaint = Paint()
 final _bgPaint = Paint()..color = Colors.black;
 
 class Recognizer {
-/*  
-  Future loadModel() {
+  Future loadModel() async {
     Tflite.close();
 
     return Tflite.loadModel(
@@ -30,7 +32,7 @@ class Recognizer {
   dispose() {
     Tflite.close();
   }
-*/
+
   Future<Uint8List> previewImage(List<Offset?> points) async {
     final picture = _pointsToPicture(points);
     final image = await picture.toImage(
@@ -40,7 +42,6 @@ class Recognizer {
     return pngBytes!.buffer.asUint8List();
   }
 
-/*
   Future recognize(List<Offset?> points) async {
     final picture = _pointsToPicture(points);
     Uint8List bytes =
@@ -48,11 +49,9 @@ class Recognizer {
     return _predict(bytes);
   }
 
-
   Future _predict(Uint8List bytes) {
     return Tflite.runModelOnBinary(binary: bytes);
   }
-*/
 
   Future<Uint8List> _imageToByteListUint8(Picture pic, int size) async {
     final img = await pic.toImage(size, size);
