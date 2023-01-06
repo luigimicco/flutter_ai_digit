@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
 import 'drawing_painter.dart';
+import "../services/recognizer.dart";
 
 class DrawScreen extends StatefulWidget {
   const DrawScreen({super.key});
@@ -14,6 +15,7 @@ class DrawScreen extends StatefulWidget {
 class _DrawScreenState extends State<DrawScreen> {
   final List<Offset?> _points = [];
   bool initialize = false;
+  final _recognizer = Recognizer();
 
   @override
   void initState() {
@@ -48,6 +50,7 @@ class _DrawScreenState extends State<DrawScreen> {
                   ),
                 ),
               ),
+              _mnistPreviewImage(),
             ],
           ),
           const SizedBox(
@@ -102,4 +105,41 @@ class _DrawScreenState extends State<DrawScreen> {
       ),
     );
   }
+
+  Widget _mnistPreviewImage() {
+    return Container(
+      width: 100,
+      height: 100,
+      color: Colors.black,
+      child: FutureBuilder(
+        future: _previewImage(),
+        builder: (BuildContext _, snapshot) {
+          if (snapshot.hasData) {
+            return Image.memory(
+              snapshot.data!,
+              fit: BoxFit.fill,
+            );
+          } else {
+            return const Center(
+              child: Text('Error'),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Future<Uint8List> _previewImage() async {
+    return await _recognizer.previewImage(_points);
+  }
+
+/*
+  void _recognize() async {
+    List<dynamic> pred = await _recognizer.recognize(_points);
+    setState(() {
+//      _prediction = pred.map((json) => Prediction.fromJson(json)).toList();
+    });
+  }
+*/
+
 }
