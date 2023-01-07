@@ -9,24 +9,53 @@ class PredictionWidget extends StatelessWidget {
   Widget _numberWidget(int num, Prediction? prediction) {
     return Column(
       children: <Widget>[
+        Stack(
+          alignment: AlignmentDirectional.bottomEnd,
+          children: [
+            const SizedBox(
+              height: 120,
+              width: 5,
+            ),
+            Column(
+              children: [
+                Text(
+                  prediction == null
+                      ? ''
+                      : "${(prediction.confidence * 100).toStringAsFixed(0)}%",
+                  style: const TextStyle(
+                    fontSize: 10,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Container(
+                  height:
+                      (prediction == null) ? 0 : prediction.confidence * 100,
+                  width: 5,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    color: prediction == null
+                        ? Colors.black
+                        : Colors.blue.withOpacity(
+                            (prediction.confidence * 2).clamp(0, 1).toDouble(),
+                          ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
         Text(
           '$num',
           style: TextStyle(
-            fontSize: 60,
+            fontSize: 50,
             fontWeight: FontWeight.bold,
             color: prediction == null
                 ? Colors.black
-                : Colors.red.withOpacity(
+                : Colors.blue.withOpacity(
                     (prediction.confidence * 2).clamp(0, 1).toDouble(),
                   ),
           ),
         ),
-        Text(
-          prediction == null ? '' : prediction.confidence.toStringAsFixed(3),
-          style: const TextStyle(
-            fontSize: 12,
-          ),
-        )
       ],
     );
   }
@@ -61,17 +90,11 @@ class PredictionWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            for (var i = 0; i < 5; i++) _numberWidget(i, styles[i])
+            for (var i = 0; i < 10; i++) _numberWidget(i, styles[i])
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            for (var i = 5; i < 10; i++) _numberWidget(i, styles[i])
-          ],
-        )
       ],
     );
   }

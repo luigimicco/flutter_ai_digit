@@ -36,53 +36,58 @@ class _DrawScreenState extends State<DrawScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Digit Recognizer'),
+        title: Flex(
+          direction: Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('Digit AI Recognizer'),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    _points.clear();
+                    _prediction.clear();
+                  });
+                },
+                icon: const Icon(Icons.delete))
+          ],
+        ),
+        centerTitle: true,
       ),
-      body: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: const <Widget>[
-                      Text(
-                        'MNIST database of handwritten digits',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'The digits have been size-normalized and centered in a fixed-size images (28 x 28)',
-                      )
-                    ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: const <Widget>[
+                        Text(
+                          'MNIST database of handwritten digits',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              _mnistPreviewImage(),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          _drawCanvasWidget(),
-          const SizedBox(
-            height: 10,
-          ),
-          PredictionWidget(
-            predictions: _prediction,
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.delete),
-        onPressed: () {
-          setState(() {
-            _points.clear();
-            _prediction.clear();
-          });
-        },
+                // _mnistPreviewImage(),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            _drawCanvasWidget(),
+            const SizedBox(
+              height: 10,
+            ),
+            PredictionWidget(
+              predictions: _prediction,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -113,7 +118,6 @@ class _DrawScreenState extends State<DrawScreen> {
           _points.add(null);
           if (_points.isNotEmpty) {
             _recognize();
-            setState(() {});
           }
         },
         child: CustomPaint(

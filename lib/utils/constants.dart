@@ -5,5 +5,5 @@ class Constants {
   static double imageSize = 300;
   static int mnistImageSize = 28;
 
-  static double strokeWidth = 8;
+  static double strokeWidth = 10;
 }
