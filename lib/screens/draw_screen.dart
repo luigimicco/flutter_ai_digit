@@ -99,6 +99,7 @@ class _DrawScreenState extends State<DrawScreen> {
       width: Constants.canvasSize + Constants.borderSize * 2,
       height: Constants.canvasSize + Constants.borderSize * 2,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
         border: Border.all(
           color: Colors.black,
           width: Constants.borderSize,

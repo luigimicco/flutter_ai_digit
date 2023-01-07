@@ -87,15 +87,18 @@ class PredictionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var styles = getPredictionStyles(predictions);
 
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            for (var i = 0; i < 10; i++) _numberWidget(i, styles[i])
-          ],
-        ),
-      ],
+    return Container(
+      color: Colors.yellow,
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              for (var i = 0; i < 10; i++) _numberWidget(i, styles[i])
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
