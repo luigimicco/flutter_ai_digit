@@ -46,7 +46,7 @@ class _DrawScreenState extends State<DrawScreen> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                'MNIST database of handwritten digits',
+                '(using MNIST database of handwritten digits)',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
