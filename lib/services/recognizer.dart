@@ -24,9 +24,7 @@ class Recognizer {
     Tflite.close();
 
     return Tflite.loadModel(
-      model: "assets/mnist.tflite",
-      labels: "assets/mnist.txt",
-    );
+        model: "assets/mnist.tflite", labels: "assets/mnist.txt");
   }
 
   dispose() {
@@ -43,14 +41,31 @@ class Recognizer {
   }
 
   Future recognize(List<Offset?> points) async {
-    final picture = _pointsToPicture(points);
+    final Picture picture = _pointsToPicture(points);
+/*
+    var recognitions = await Tflite.runModelOnBinary(
+        binary: await _imageToByteListUint8(
+            picture, Constants.mnistImageSize), // required
+        numResults: 10, // defaults to 5
+        threshold: 0.05, // defaults to 0.1
+        asynch: true // defaults to true
+        );
+    return recognitions;
+*/
     Uint8List bytes =
         await _imageToByteListUint8(picture, Constants.mnistImageSize);
     return _predict(bytes);
   }
 
-  Future _predict(Uint8List bytes) {
+  Future _predict(Uint8List bytes) async {
     return Tflite.runModelOnBinary(binary: bytes);
+/*        
+    return Tflite.runModelOnBinary(
+        binary: bytes,
+        numResults: 10, // defaults to 5
+        threshold: 0.05, // defaults to 0.1
+        asynch: true); // defaults to true);
+*/
   }
 
   Future<Uint8List> _imageToByteListUint8(Picture pic, int size) async {
@@ -85,7 +100,6 @@ class Recognizer {
         canvas.drawLine(points[i]!, points[i + 1]!, _whitePaint);
       }
     }
-
     return recorder.endRecording();
   }
 }

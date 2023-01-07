@@ -16,13 +16,20 @@ class DrawScreen extends StatefulWidget {
 
 class _DrawScreenState extends State<DrawScreen> {
   final List<Offset?> _points = [];
-  late List<Prediction> _prediction = [];
+  List<Prediction> _prediction = [];
   bool initialize = false;
   final _recognizer = Recognizer();
 
   @override
   void initState() {
     super.initState();
+    _initModel();
+  }
+
+  @override
+  void dispose() {
+    _recognizer.dispose();
+    super.dispose();
   }
 
   @override
@@ -63,13 +70,9 @@ class _DrawScreenState extends State<DrawScreen> {
           const SizedBox(
             height: 10,
           ),
-          (_prediction.isNotEmpty)
-              ? PredictionWidget(
-                  predictions: _prediction,
-                )
-              : const SizedBox(
-                  height: 10,
-                ),
+          PredictionWidget(
+            predictions: _prediction,
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -108,7 +111,10 @@ class _DrawScreenState extends State<DrawScreen> {
         },
         onPanEnd: (DragEndDetails details) {
           _points.add(null);
-          _recognize();
+          if (_points.isNotEmpty) {
+            _recognize();
+            setState(() {});
+          }
         },
         child: CustomPaint(
           painter: DrawingPainter(_points),
@@ -151,7 +157,7 @@ class _DrawScreenState extends State<DrawScreen> {
   void _recognize() async {
     List<dynamic> pred = await _recognizer.recognize(_points);
     setState(() {
-//      _prediction = pred.map((json) => Prediction.fromJson(json)).toList();
+      _prediction = pred.map((json) => Prediction.fromJson(json)).toList();
     });
   }
 }

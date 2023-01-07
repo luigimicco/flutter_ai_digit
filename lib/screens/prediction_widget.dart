@@ -6,7 +6,7 @@ class PredictionWidget extends StatelessWidget {
 
   const PredictionWidget({required this.predictions, super.key});
 
-  Widget _numberWidget(int num, Prediction prediction) {
+  Widget _numberWidget(int num, Prediction? prediction) {
     return Column(
       children: <Widget>[
         Text(
@@ -22,7 +22,7 @@ class PredictionWidget extends StatelessWidget {
           ),
         ),
         Text(
-          '${prediction == null ? '' : prediction.confidence.toStringAsFixed(3)}',
+          prediction == null ? '' : prediction.confidence.toStringAsFixed(3),
           style: const TextStyle(
             fontSize: 12,
           ),
@@ -46,9 +46,9 @@ class PredictionWidget extends StatelessWidget {
     ];
 
     if (predictions != null) {
-      predictions.forEach((prediction) {
+      for (var prediction in predictions) {
         data[prediction.index] = prediction;
-      });
+      }
     }
 
     return data;
@@ -56,7 +56,7 @@ class PredictionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var styles = getPredictionStyles(this.predictions);
+    var styles = getPredictionStyles(predictions);
 
     return Column(
       children: <Widget>[
