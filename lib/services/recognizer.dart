@@ -42,16 +42,7 @@ class Recognizer {
 
   Future recognize(List<Offset?> points) async {
     final Picture picture = _pointsToPicture(points);
-/*
-    var recognitions = await Tflite.runModelOnBinary(
-        binary: await _imageToByteListUint8(
-            picture, Constants.mnistImageSize), // required
-        numResults: 10, // defaults to 5
-        threshold: 0.05, // defaults to 0.1
-        asynch: true // defaults to true
-        );
-    return recognitions;
-*/
+
     Uint8List bytes =
         await _imageToByteListUint8(picture, Constants.mnistImageSize);
     return _predict(bytes);
@@ -59,13 +50,6 @@ class Recognizer {
 
   Future _predict(Uint8List bytes) async {
     return Tflite.runModelOnBinary(binary: bytes);
-/*        
-    return Tflite.runModelOnBinary(
-        binary: bytes,
-        numResults: 10, // defaults to 5
-        threshold: 0.05, // defaults to 0.1
-        asynch: true); // defaults to true);
-*/
   }
 
   Future<Uint8List> _imageToByteListUint8(Picture pic, int size) async {

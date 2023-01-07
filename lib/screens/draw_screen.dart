@@ -36,21 +36,23 @@ class _DrawScreenState extends State<DrawScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Digit AI Recognizer'),
+        title: Column(
+          children: const [
+            Text('Digit AI Recognizer'),
+            Text(
+              '(using MNIST database of handwritten digits)',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                '(using MNIST database of handwritten digits)',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             const SizedBox(
               height: 10,
             ),
@@ -153,7 +155,7 @@ class _DrawScreenState extends State<DrawScreen> {
   }
 
   void _initModel() async {
-    var res = await _recognizer.loadModel();
+    await _recognizer.loadModel();
   }
 
   Future<Uint8List> _previewImage() async {
