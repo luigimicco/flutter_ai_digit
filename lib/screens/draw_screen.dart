@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
@@ -36,50 +37,51 @@ class _DrawScreenState extends State<DrawScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Flex(
-          direction: Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('Digit AI Recognizer'),
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    _points.clear();
-                    _prediction.clear();
-                  });
-                },
-                icon: const Icon(Icons.delete))
-          ],
-        ),
+        title: const Text('Digit AI Recognizer'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: const <Widget>[
-                        Text(
-                          'MNIST database of handwritten digits',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'MNIST database of handwritten digits',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
                 ),
-                // _mnistPreviewImage(),
-              ],
+              ),
             ),
             const SizedBox(
               height: 10,
             ),
-            _drawCanvasWidget(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: _drawCanvasWidget(),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _points.clear();
+                            _prediction.clear();
+                          });
+                        },
+                        child: const Text("Clear")),
+                    const SizedBox(
+                      height: 150,
+                    ),
+                    _mnistPreviewImage(),
+                  ],
+                )
+              ],
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -129,8 +131,8 @@ class _DrawScreenState extends State<DrawScreen> {
 
   Widget _mnistPreviewImage() {
     return Container(
-      width: 100,
-      height: 100,
+      width: 80,
+      height: 80,
       color: Colors.black,
       child: FutureBuilder(
         future: _previewImage(),
