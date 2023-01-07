@@ -13,20 +13,31 @@ class PredictionWidget extends StatelessWidget {
           alignment: AlignmentDirectional.bottomEnd,
           children: [
             const SizedBox(
-              height: 120,
+              height: 200,
               width: 5,
             ),
             Column(
               children: [
                 Text(
-                  prediction == null
-                      ? ''
-                      : "${(prediction.confidence * 100).toStringAsFixed(0)}%",
-                  style: const TextStyle(
-                    fontSize: 10,
+                  '$num',
+                  style: TextStyle(
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold,
+                    color: prediction == null
+                        ? Colors.black
+                        : Colors.blue.withOpacity(
+                            (prediction.confidence * 2).clamp(0, 1).toDouble(),
+                          ),
                   ),
                 ),
-                const SizedBox(height: 2),
+                (prediction == null)
+                    ? const SizedBox()
+                    : Text(
+                        "${(prediction.confidence * 100).toStringAsFixed(0)}%",
+                        style: const TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
                 Container(
                   height:
                       (prediction == null) ? 0 : prediction.confidence * 100,
@@ -43,18 +54,6 @@ class PredictionWidget extends StatelessWidget {
               ],
             ),
           ],
-        ),
-        Text(
-          '$num',
-          style: TextStyle(
-            fontSize: 50,
-            fontWeight: FontWeight.bold,
-            color: prediction == null
-                ? Colors.black
-                : Colors.blue.withOpacity(
-                    (prediction.confidence * 2).clamp(0, 1).toDouble(),
-                  ),
-          ),
         ),
       ],
     );
@@ -88,7 +87,7 @@ class PredictionWidget extends StatelessWidget {
     var styles = getPredictionStyles(predictions);
 
     return Container(
-      color: Colors.yellow,
+      color: Colors.yellow[200],
       child: Column(
         children: <Widget>[
           Row(
