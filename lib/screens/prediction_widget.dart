@@ -8,7 +8,7 @@ class PredictionWidget extends StatelessWidget {
 
   Widget _numberWidget(int num, Prediction? prediction) {
     return Column(
-      children: <Widget>[
+      children: [
         Stack(
           alignment: AlignmentDirectional.bottomEnd,
           children: [
@@ -25,19 +25,11 @@ class PredictionWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: prediction == null
                         ? Colors.black
-                        : Colors.blue.withOpacity(
+                        : Colors.green.withOpacity(
                             (prediction.confidence * 2).clamp(0, 1).toDouble(),
                           ),
                   ),
                 ),
-                (prediction == null)
-                    ? const SizedBox()
-                    : Text(
-                        "${(prediction.confidence * 100).toStringAsFixed(0)}%",
-                        style: const TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
                 Container(
                   height:
                       (prediction == null) ? 0 : prediction.confidence * 100,
@@ -49,6 +41,17 @@ class PredictionWidget extends StatelessWidget {
                         : Colors.blue.withOpacity(
                             (prediction.confidence * 2).clamp(0, 1).toDouble(),
                           ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 2),
+                  child: Text(
+                    (prediction == null)
+                        ? ""
+                        : "${(prediction.confidence * 100).toStringAsFixed(0)}%",
+                    style: const TextStyle(
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ],
@@ -89,10 +92,10 @@ class PredictionWidget extends StatelessWidget {
     return Container(
       color: Colors.yellow[200],
       child: Column(
-        children: <Widget>[
+        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
+            children: [
               for (var i = 0; i < 10; i++) _numberWidget(i, styles[i])
             ],
           ),
