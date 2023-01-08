@@ -113,9 +113,7 @@ class _DrawScreenState extends State<DrawScreen> {
         },
         onPanEnd: (DragEndDetails details) {
           _points.add(null);
-          if (_points.isNotEmpty) {
-            _recognize();
-          }
+          _recognize();
         },
         child: CustomPaint(
           painter: DrawingPainter(_points),
@@ -126,8 +124,8 @@ class _DrawScreenState extends State<DrawScreen> {
 
   Widget _mnistPreviewImage() {
     return Container(
-      width: 40,
-      height: 40,
+      width: Constants.previewImageSize,
+      height: Constants.previewImageSize,
       color: Colors.black,
       child: FutureBuilder(
         future: _previewImage(),
