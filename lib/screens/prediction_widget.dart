@@ -25,7 +25,7 @@ class PredictionWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: prediction == null
                         ? Colors.black
-                        : Colors.green.withOpacity(
+                        : Colors.blue.withOpacity(
                             (prediction.confidence * 2).clamp(0, 1).toDouble(),
                           ),
                   ),
@@ -100,7 +100,7 @@ class PredictionWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.yellow[200],
+                color: Colors.orange[200],
                 borderRadius: BorderRadius.circular(10)),
             child: Column(
               children: [
