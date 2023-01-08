@@ -63,18 +63,7 @@ class PredictionWidget extends StatelessWidget {
   }
 
   List<dynamic> getPredictionStyles(List<Prediction>? predictions) {
-    List<dynamic> data = [
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
-    ];
+    List<dynamic> data = List.generate(10, (_) => null);
 
     if (predictions != null) {
       for (var prediction in predictions) {
@@ -96,22 +85,19 @@ class PredictionWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 16,
             )),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.orange[200],
-                borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    for (var i = 0; i < 10; i++) _numberWidget(i, styles[i])
-                  ],
-                ),
-              ],
-            ),
+        Container(
+          decoration: BoxDecoration(
+              color: Colors.orange[200],
+              borderRadius: BorderRadius.circular(10)),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  for (var i = 0; i < 10; i++) _numberWidget(i, styles[i])
+                ],
+              ),
+            ],
           ),
         ),
       ],

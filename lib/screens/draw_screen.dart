@@ -51,44 +51,43 @@ class _DrawScreenState extends State<DrawScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Stack(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
                       alignment: AlignmentDirectional.bottomEnd,
-                      children: [_drawCanvasWidget(), _mnistPreviewImage()]),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      setState(() {
+                      children: [_tapWidget(), _smallImage()]),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
                         _points.clear();
                         _prediction.clear();
-                      });
-                    },
-                    child: const Text("Clear"))
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            PredictionWidget(
-              predictions: _prediction,
-            ),
-          ],
+                        setState(() {});
+                      },
+                      child: const Text("Clear"))
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              PredictionWidget(
+                predictions: _prediction,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _drawCanvasWidget() {
+  Widget _tapWidget() {
     return Container(
       width: Constants.canvasSize + Constants.borderSize * 2,
       height: Constants.canvasSize + Constants.borderSize * 2,
@@ -101,14 +100,11 @@ class _DrawScreenState extends State<DrawScreen> {
       ),
       child: GestureDetector(
         onPanUpdate: (DragUpdateDetails details) {
-          Offset localPosition = details.localPosition;
-          if (localPosition.dx >= 0 &&
-              localPosition.dx <= Constants.canvasSize &&
-              localPosition.dy >= 0 &&
-              localPosition.dy <= Constants.canvasSize) {
-            setState(() {
-              _points.add(localPosition);
-            });
+          Offset pos = details.localPosition;
+          if (pos.dx.clamp(0, Constants.canvasSize) == pos.dx &&
+              pos.dy.clamp(0, Constants.canvasSize) == pos.dy) {
+            _points.add(pos);
+            setState(() {});
           }
         },
         onPanEnd: (DragEndDetails details) {
@@ -116,13 +112,13 @@ class _DrawScreenState extends State<DrawScreen> {
           _recognize();
         },
         child: CustomPaint(
-          painter: DrawingPainter(_points),
+          painter: Painter(_points),
         ),
       ),
     );
   }
 
-  Widget _mnistPreviewImage() {
+  Widget _smallImage() {
     return Container(
       width: Constants.previewImageSize,
       height: Constants.previewImageSize,
@@ -155,8 +151,7 @@ class _DrawScreenState extends State<DrawScreen> {
 
   void _recognize() async {
     List<dynamic> pred = await _recognizer.recognize(_points);
-    setState(() {
-      _prediction = pred.map((json) => Prediction.fromJson(json)).toList();
-    });
+    _prediction = pred.map((json) => Prediction.fromJson(json)).toList();
+    setState(() {});
   }
 }

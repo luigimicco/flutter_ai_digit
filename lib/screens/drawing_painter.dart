@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
-class DrawingPainter extends CustomPainter {
+class Painter extends CustomPainter {
   final List<Offset?> points;
 
-  DrawingPainter(this.points);
+  Painter(this.points);
 
   final Paint _paint = Paint()
     ..strokeCap = StrokeCap.round
