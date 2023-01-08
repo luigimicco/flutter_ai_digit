@@ -62,25 +62,18 @@ class _DrawScreenState extends State<DrawScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: _drawCanvasWidget(),
+                  child: Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [_drawCanvasWidget(), _mnistPreviewImage()]),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _points.clear();
-                            _prediction.clear();
-                          });
-                        },
-                        child: const Text("Clear")),
-                    const SizedBox(
-                      height: 150,
-                    ),
-                    _mnistPreviewImage(),
-                  ],
-                )
+                ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _points.clear();
+                        _prediction.clear();
+                      });
+                    },
+                    child: const Text("Clear"))
               ],
             ),
             const SizedBox(
@@ -133,8 +126,8 @@ class _DrawScreenState extends State<DrawScreen> {
 
   Widget _mnistPreviewImage() {
     return Container(
-      width: 80,
-      height: 80,
+      width: 40,
+      height: 40,
       color: Colors.black,
       child: FutureBuilder(
         future: _previewImage(),

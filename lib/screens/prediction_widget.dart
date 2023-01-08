@@ -13,7 +13,7 @@ class PredictionWidget extends StatelessWidget {
           alignment: AlignmentDirectional.bottomEnd,
           children: [
             const SizedBox(
-              height: 200,
+              height: 180,
               width: 5,
             ),
             Column(
@@ -89,18 +89,32 @@ class PredictionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var styles = getPredictionStyles(predictions);
 
-    return Container(
-      color: Colors.yellow[200],
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              for (var i = 0; i < 10; i++) _numberWidget(i, styles[i])
-            ],
+    return Column(
+      children: [
+        const Text("Prediction",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            )),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.yellow[200],
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    for (var i = 0; i < 10; i++) _numberWidget(i, styles[i])
+                  ],
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
