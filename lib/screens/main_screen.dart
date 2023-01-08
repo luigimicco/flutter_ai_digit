@@ -2,19 +2,19 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import '../utils/constants.dart';
-import 'drawing_painter.dart';
+import 'painter_screen.dart';
 import "../services/recognizer.dart";
 import "../models/prediction.dart";
-import 'prediction_widget.dart';
+import 'result_widget.dart';
 
-class DrawScreen extends StatefulWidget {
-  const DrawScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<DrawScreen> createState() => _DrawScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _DrawScreenState extends State<DrawScreen> {
+class _MainScreenState extends State<MainScreen> {
   final List<Offset?> _points = [];
   List<Prediction> _prediction = [];
   bool initialize = false;
@@ -77,7 +77,7 @@ class _DrawScreenState extends State<DrawScreen> {
               const SizedBox(
                 height: 10,
               ),
-              PredictionWidget(
+              ResultWidget(
                 predictions: _prediction,
               ),
             ],
