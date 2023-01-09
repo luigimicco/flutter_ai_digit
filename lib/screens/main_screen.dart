@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 import 'painter_screen.dart';
 import "../services/recognizer.dart";
-import "../models/prediction.dart";
+import "../models/classification.dart";
 import 'result_widget.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final List<Offset?> _points = [];
-  List<Prediction> _prediction = [];
+  List<Classification> _classification = [];
   bool initialize = false;
   final _recognizer = Recognizer();
 
@@ -68,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
                   ElevatedButton(
                       onPressed: () {
                         _points.clear();
-                        _prediction.clear();
+                        _classification.clear();
                         setState(() {});
                       },
                       child: const Text("Clear"))
@@ -78,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
                 height: 10,
               ),
               ResultWidget(
-                predictions: _prediction,
+                classifications: _classification,
               ),
             ],
           ),
@@ -151,7 +151,8 @@ class _MainScreenState extends State<MainScreen> {
 
   void _recognize() async {
     List<dynamic> pred = await _recognizer.recognize(_points);
-    _prediction = pred.map((json) => Prediction.fromJson(json)).toList();
+    _classification =
+        pred.map((json) => Classification.fromJson(json)).toList();
     setState(() {});
   }
 }

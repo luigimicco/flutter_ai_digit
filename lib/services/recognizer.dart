@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 import '../utils/constants.dart';
 import 'package:flutter_tflite/flutter_tflite.dart';
 
-//import  'package:tflite/tflite.dart';
-
 final _canvasCullRect = Rect.fromPoints(
   const Offset(0, 0),
   Offset(Constants.imageSize, Constants.imageSize),

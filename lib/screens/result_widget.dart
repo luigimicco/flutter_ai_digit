@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import '../models/prediction.dart';
+import '../models/classification.dart';
 
 class ResultWidget extends StatelessWidget {
-  final List<Prediction> predictions;
+  final List<Classification> classifications;
 
-  const ResultWidget({required this.predictions, super.key});
+  const ResultWidget({required this.classifications, super.key});
 
   @override
   Widget build(BuildContext context) {
-    var values = _getPredictionValues(predictions);
+    var values = _getClassificationValues(classifications);
 
     return Column(
       children: [
-        const Text("Prediction",
+        const Text("Classification",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -26,7 +26,8 @@ class ResultWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  for (var i = 0; i < 10; i++) _predictionWidget(i, values[i])
+                  for (var i = 0; i < 10; i++)
+                    _classificationWidget(i, values[i])
                 ],
               ),
             ],
@@ -36,9 +37,11 @@ class ResultWidget extends StatelessWidget {
     );
   }
 
-  Widget _predictionWidget(int label, Prediction? currentPrediction) {
-    Color predictionColor = _getPredictionColor(currentPrediction);
-    double predictionConfidence = _getPredictionConfidence(currentPrediction);
+  Widget _classificationWidget(
+      int label, Classification? currentClassification) {
+    Color classificationColor = _getClassificationColor(currentClassification);
+    double classificationConfidence =
+        _getClassificationConfidence(currentClassification);
 
     return Column(
       children: [
@@ -56,23 +59,23 @@ class ResultWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 50,
                     fontWeight: FontWeight.bold,
-                    color: predictionColor,
+                    color: classificationColor,
                   ),
                 ),
                 Container(
-                  height: predictionConfidence,
+                  height: classificationConfidence,
                   width: 5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(2),
-                    color: predictionColor,
+                    color: classificationColor,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: Text(
-                    (predictionConfidence == 0)
+                    (classificationConfidence == 0)
                         ? ""
-                        : "${predictionConfidence.toStringAsFixed(0)}%",
+                        : "${classificationConfidence.toStringAsFixed(0)}%",
                     style: const TextStyle(
                       fontSize: 12,
                     ),
@@ -86,22 +89,23 @@ class ResultWidget extends StatelessWidget {
     );
   }
 
-  Color _getPredictionColor(Prediction? prediction) {
-    return prediction == null
+  Color _getClassificationColor(Classification? classification) {
+    return classification == null
         ? Colors.black
-        : Colors.blue.withOpacity(prediction.confidence);
+        : Colors.blue.withOpacity(classification.confidence);
   }
 
-  double _getPredictionConfidence(Prediction? prediction) {
-    return (prediction == null) ? 0 : prediction.confidence * 100;
+  double _getClassificationConfidence(Classification? classification) {
+    return (classification == null) ? 0 : classification.confidence * 100;
   }
 
-  List<dynamic> _getPredictionValues(List<Prediction>? predictions) {
+  List<dynamic> _getClassificationValues(
+      List<Classification>? classifications) {
     List<dynamic> data = List.generate(10, (_) => null);
 
-    if (predictions != null) {
-      for (var prediction in predictions) {
-        data[prediction.index] = prediction;
+    if (classifications != null) {
+      for (var classification in classifications) {
+        data[classification.index] = classification;
       }
     }
 

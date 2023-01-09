@@ -1,13 +1,13 @@
-class Prediction {
+class Classification {
   final double confidence;
   final int index;
   final String label;
 
-  Prediction(
+  Classification(
       {required this.confidence, required this.index, required this.label});
 
-  factory Prediction.fromJson(Map<dynamic, dynamic> json) {
-    return Prediction(
+  factory Classification.fromJson(Map<dynamic, dynamic> json) {
+    return Classification(
       confidence: json['confidence'],
       index: json['index'],
       label: json['label'],
